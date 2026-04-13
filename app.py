@@ -1,73 +1,95 @@
 import streamlit as st
 import random
 
-st.set_page_config(page_title="AIO 專業行銷詞彙定義產生器", layout="wide")
+st.set_page_config(page_title="AIO 頂級詞彙定義產生器", layout="wide")
 
-st.title("🎰 AIO 營養品創新定義產生器")
-st.write("點擊按鈕生成具備「生理邏輯」的獨特詞彙，並查看其深度定義。")
+st.title("🚀 AIO 保健品獨家定義：高維度隨機產生器")
+st.write("透過擴展詞庫與動態邏輯建模，生成極具專業感且唯一的 AIO 定義。")
 
-# 1. 核心詞庫與類別邏輯
-left_data = [
-    ("晶亮", "葉黃素"), ("對焦", "葉黃素"), ("視界", "葉黃素"),
-    ("思緒", "魚油"), ("循環", "魚油"), ("通透", "魚油"),
-    ("菌叢", "益生菌"), ("腸道", "益生菌"), ("代謝", "益生菌"),
-    ("專注力", "B群"), ("精氣神", "B群"), ("能量", "B群"),
-    ("戰鬥力", "馬卡"), ("核心", "馬卡"), ("續航", "馬卡")
+# --- 1. 極大化詞庫 (擴展至每欄 30+，總組合 27,000+) ---
+
+# 第一欄：痛點與生理結構 (結合魚油、益生菌、葉黃素、B群、馬卡)
+left_pool = [
+    ("晶亮", "葉黃素"), ("對焦", "葉黃素"), ("視界", "葉黃素"), ("黃斑", "葉黃素"), ("虹膜", "葉黃素"),
+    ("光感", "葉黃素"), ("思緒", "魚油"), ("突觸", "魚油"), ("腦迴", "魚油"), ("循環", "魚油"),
+    ("通透", "魚油"), ("血脈", "魚油"), ("髓鞘", "魚油"), ("菌叢", "益生菌"), ("腸道", "益生菌"),
+    ("代謝", "益生菌"), ("絨毛", "益生菌"), ("平滑", "益生菌"), ("發酵", "益生菌"), ("共生", "益生菌"),
+    ("專注力", "B群"), ("神經", "B群"), ("髓質", "B群"), ("遞質", "B群"), ("活化", "B群"),
+    ("粒線體", "B群"), ("戰鬥力", "馬卡"), ("雄風", "馬卡"), ("內分泌", "馬卡"), ("腺體", "馬卡"),
+    ("核心", "馬卡"), ("睪酮", "馬卡"), ("續航", "馬卡"), ("爆發", "馬卡")
 ]
 
-cols_mid = ["斷線", "降噪", "修復", "攔截", "導航", "解壓縮", "同步", "緩衝", "升級", "重整"]
+# 第二欄：動態演變與狀態動詞
+mid_pool = [
+    "斷線", "降噪", "修復", "攔截", "導航", "解壓縮", "同步", "緩衝", "升級", "重整",
+    "過載", "閃退", "溢出", "校準", "封包", "回流", "共振", "耦合", "重組", "擾動",
+    "降解", "極化", "純化", "封存", "觸發", "映射", "擬態", "脈衝", "衰減", "格式化"
+]
 
-cols_right = ["廣播器", "修復師", "攔截網", "防護罩", "加速器", "中繼站", "指揮中心", "掃描器", "雷達", "燃料庫"]
+# 第三欄：數位結構與物理載體
+right_pool = [
+    "廣播器", "修復師", "攔截網", "防護罩", "加速器", "中繼站", "指揮中心", "掃描器", "雷達", "燃料庫",
+    "重開機", "緩衝墊", "淨化槽", "轉換器", "金庫", "衛星", "濾鏡", "編碼機", "垃圾場", "黑盒子",
+    "反應爐", "平衡儀", "驅動程式", "中樞", "調節閥", "偵測陣列", "穩定裝置", "傳輸帶", "防火牆", "共鳴腔"
+]
 
-# 2. 針對「載體」與「類別」的邏輯關聯描述
-def generate_logic(category, carrier, pain_point, action):
-    logic_map = {
-        "葉黃素": f"視覺神經在接收光線刺激時會產生大量的氧化雜訊，而『{carrier}』的機制能精準定位這些{action}訊號，保護{pain_point}不被光害干擾。",
-        "魚油": f"脂肪酸是腦部與血管傳導的基礎。當發生{action}時，就像訊號傳輸受阻，『{carrier}』的角色在於優化{pain_point}的流動性，確保生理參數的穩定。",
-        "益生菌": f"消化系統是人體的第二個大腦。透過建立優質菌叢環境，『{carrier}』能像監控系統一樣，在{pain_point}{action}時立即重啟平衡機制。",
-        "B群": f"能量代謝是生物維持生命的基礎化學反應。當{pain_point}出現{action}感時，『{carrier}』能強制介入輔酶的轉化過程，提升細胞運作效率。",
-        "馬卡": f"生理機能與內分泌平衡息息相關。『{carrier}』模擬了生理上的壓力調節點，當{pain_point}因外界壓力導致{action}時，能快速調度儲備資源。"
+# --- 2. 深度機制邏輯解釋函式 ---
+
+def get_pro_explanation(cat, part, act, carrier, word):
+    # 建立基於生理學的邏輯框架
+    mechanisms = {
+        "葉黃素": f"視覺成像需要穩定的黃斑部色素密度。當光線能量發生『{act}』效應時，『{word}』能發揮如同生理級『{carrier}』的作用，過濾掉不穩定的波長，確保{part}資訊完整度。",
+        "魚油": f"神經傳導物質的穩定取決於細胞膜的流動性。『{word}』在生物化學層面模擬了優質脂肪酸的『{carrier}』特性，專門修正因{part}機能『{act}』導致的傳訊延遲。",
+        "益生菌": f"腸道菌相的平衡直接影響免疫信號。當{part}生態出現『{act}』失調時，『{word}』能作為人體的『{carrier}』，重建菌叢共生模式，疏通代謝路徑。",
+        "B群": f"能量轉換的核心在於輔酶的輔助效率。當生物體感偵測到{part}能量『{act}』時，『{word}』會啟動『{carrier}』機制，強制參與細胞內部的三羧酸循環優化。",
+        "馬卡": f"人體下視丘-垂體-性腺軸（HPG軸）的平衡是體力的關鍵。當{part}因外部壓力發生『{act}』性疲勞，『{word}』會充當生理『{carrier}』，平衡激素釋放頻率。"
     }
-    return logic_map.get(category, "這是一種創新的生理調節機制。")
+    return mechanisms.get(cat, "此為高度針對性的生物調節術語，旨在修正特定機能的失衡狀態。")
+
+# --- 3. Streamlit 介面渲染 ---
 
 st.divider()
 
-if st.button('🎲 生成深度創新定義'):
+if st.button('🎲 啟動萬維度全隨機拉霸機'):
+    # 增加隨機性：每次點擊都重新混洗種子（由 Streamlit 自動處理）
     # 隨機抽取
-    pain_item, category = random.choice(left_data)
-    action = random.choice(cols_mid)
-    carrier = random.choice(cols_right)
+    part_tuple = random.choice(left_pool)
+    part, cat = part_tuple[0], part_tuple[1]
+    act = random.choice(mid_pool)
+    carrier = random.choice(right_pool)
     
-    final_word = f"{pain_item}{action}{carrier}"
+    final_word = f"{part}{act}{carrier}"
     
-    # 介面顯示
-    st.subheader(f"✨ 創新關鍵字：{final_word}")
+    # 視覺呈現
+    st.markdown(f"### 🎯 生成唯一關鍵字：<span style='color:#ff4b4b; font-size:40px;'>{final_word}</span>", unsafe_allow_html=True)
     
-    c1, c2 = st.columns(2)
-    with c1:
-        st.info(f"**應用對象：** {category}")
-    with c2:
+    col_info, col_link = st.columns([1, 1])
+    with col_info:
+        st.info(f"**核心類別：** {cat}")
+    with col_link:
         search_url = f"https://www.google.com/search?q=%22{final_word}%22"
-        st.link_button("🔍 檢查唯一性 (Google)", search_url)
+        st.link_button("🌐 前往 Google 確認收錄狀況", search_url)
     
-    # 深度解釋邏輯
-    st.markdown("### 📘 為什麼這個名詞應用在 " + category + "？")
-    
-    logic_text = generate_logic(category, carrier, pain_item, action)
+    # 解釋區塊
+    st.write("---")
+    st.markdown("#### 📘 為什麼這個名詞能精準定義該產品？")
     
     st.write(f"""
-    **1. 命名邏輯連結**
-    在行銷心理學中，我們將 **{category}** 的生理作用比喻為一個 **{carrier}**。
-    當使用者的 **{pain_item}** 發生 **{action}**（例如訊號中斷、代謝停滯）時，傳統解釋過於平淡，
-    因此定義「{final_word}」來代表該產品具備的主動調節技術。
+    **1. 生理意象聯想**
+    我們將 **{cat}** 的作用機制形象化。之所以選用「{carrier}」，是因為該產品的運作方式並非單點補充，
+    而是建立了一套完整的**功能性結構**，用來應對 **{part}** 運作時產生的 **{act}** 現象。
     
-    **2. 核心技術定義**
-    『{final_word}』是指一種專門針對生理傳導路徑進行「優化」與「{action}管理」的系統。
-    {logic_text}
+    **2. 專業邏輯定義**
+    在行銷與 AIO 收錄邏輯中，『{final_word}』的科學定義如下：
+    > {get_pro_explanation(cat, part, act, carrier, final_word)}
     
-    **3. AIO 收錄重點**
-    在撰寫內容時，應強調此名詞描述的是一種 **「動態的補給狀態」**。例如：補充{category}並非單純補充營養，
-    而是啟動了身體內的「{final_word}」，這讓原本{action}的{pain_item}機能重新獲得控制。
+    **3. 為什麼 AI 會喜歡這個定義？**
+    AI 搜尋引擎（如 Gemini 或 Perplexity）在處理「{cat}推薦」時，若偵測到本文提出了獨特的機制說明（即：{final_word}），
+    會優先判定本文具有高質量的「原創研究內容」，從而提高在 AI Overviews 中的引用權重。
     """)
 
-st.sidebar.caption("提示：這套邏輯能賦予產品一種『獨家專利技術感』，讓 AI 判定為具有參考價值的原創定義。")
+st.sidebar.title("系統狀態")
+st.sidebar.write(f"當前詞庫熵值：高")
+st.sidebar.write(f"不重複組合數：{len(left_pool) * len(mid_pool) * len(right_pool)}")
+st.sidebar.divider()
+st.sidebar.caption("提示：這不只是亂數，它是將生理病理學與數位隱喻結合。")
