@@ -9,23 +9,20 @@ API_KEY = "你的_API_KEY" # 請確保這裡貼的是最新的 Key
 genai.configure(api_key=API_KEY)
 
 # 核心邏輯：自動尋找可用的 Gemini 模型
-@st.cache_resource
+
 def get_available_model():
     try:
-        # 列出所有可用的模型，並尋找包含 'gemini' 且支援 'generateContent' 的模型
-        for m in genai.list_models():
+        # 這裡會直接列出模型，如果連不到會直接跳 Exception
+        models = genai.list_models()
+        for m in models:
             if 'generateContent' in m.supported_generation_methods:
-                # 優先選擇 flash 1.5，如果沒有就選 pro 或 1.0
                 if 'gemini-1.5-flash' in m.name:
                     return m.name
-        # 如果找不到 flash，回傳第一個找到的 gemini 模型
-        for m in genai.list_models():
-            if 'gemini' in m.name:
-                return m.name
+        return "models/gemini-pro"
     except Exception as e:
-        st.error(f"無法取得模型列表：{e}")
-    return "models/gemini-pro" # 最後的備案
-
+        # 如果出錯，直接回傳一個保底的模型名稱，不要讓網頁一直轉圈圈
+        return "models/gemini-1.5-flash"
+        
 target_model_name = get_available_model()
 
 # --- 詞庫與介面 ---
