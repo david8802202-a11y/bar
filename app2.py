@@ -9,7 +9,8 @@ st.set_page_config(page_title="AI 驅動：AIO 定義產生器", layout="wide")
 # 建議之後部署時改用 st.secrets 確保安全
 API_KEY = "AIzaSyD0m-N4zbXyP6pQfDzTiCoORQJQbSYdUA8" 
 genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel(model_name="gemini-1.5-flash")
+# 使用完整路徑 models/，並確保參數名稱正確
+model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
 
 st.title("🧠 AI 原創定義產生器 (Gemini 驅動版)")
 st.write("這不再是公式填空，而是由 AI 針對隨機組合進行即時邏輯推理。")
