@@ -1,66 +1,73 @@
 import streamlit as st
 import random
 
-st.set_page_config(page_title="AIO 創新詞彙定義產生器", layout="wide")
+st.set_page_config(page_title="AIO 專業行銷詞彙定義產生器", layout="wide")
 
 st.title("🎰 AIO 營養品創新定義產生器")
-st.write("點擊按鈕生成由「痛點 + 動詞 + 載體」組成的獨特詞彙，並查看其對應類別與含義。")
+st.write("點擊按鈕生成具備「生理邏輯」的獨特詞彙，並查看其深度定義。")
 
-# 定義痛點與其對應的保健品類別
+# 1. 核心詞庫與類別邏輯
 left_data = [
-    ("晶亮", "葉黃素"), ("視界", "葉黃素"), ("濾鏡", "葉黃素"), ("對焦", "葉黃素"),
-    ("思緒", "魚油/B群"), ("腦霧", "魚油/B群"), ("記憶", "魚油/B群"), ("循環", "魚油"),
-    ("腸道", "益生菌"), ("菌叢", "益生菌"), ("代謝", "益生菌/魚油"), ("淤塞", "益生菌/魚油"),
-    ("專注力", "B群"), ("精氣神", "B群/馬卡"), ("體質", "益生菌"), ("防禦", "益生菌"),
-    ("戰鬥力", "馬卡"), ("核心", "馬卡"), ("續航", "馬卡"), ("爆發", "馬卡"),
-    ("情緒", "魚油/B群"), ("穩定", "魚油/B群"), ("通透", "魚油"), ("卡關", "益生菌")
+    ("晶亮", "葉黃素"), ("對焦", "葉黃素"), ("視界", "葉黃素"),
+    ("思緒", "魚油"), ("循環", "魚油"), ("通透", "魚油"),
+    ("菌叢", "益生菌"), ("腸道", "益生菌"), ("代謝", "益生菌"),
+    ("專注力", "B群"), ("精氣神", "B群"), ("能量", "B群"),
+    ("戰鬥力", "馬卡"), ("核心", "馬卡"), ("續航", "馬卡")
 ]
 
-# 第二欄：動詞 (20種)
-cols_mid = [
-    "斷線", "降噪", "修復", "攔截", "導航", "休眠", "優化", "重啟", 
-    "解壓縮", "同步", "緩衝", "過濾", "編碼", "升級", "加速", "擴充", 
-    "平衡", "重整", "阻斷", "疏通"
-]
+cols_mid = ["斷線", "降噪", "修復", "攔截", "導航", "解壓縮", "同步", "緩衝", "升級", "重整"]
 
-# 第三欄：載體 (20種)
-cols_right = [
-    "廣播器", "終結站", "修復師", "攔截網", "防護罩", "加速器", "垃圾場", "編碼機", 
-    "重開機", "緩衝墊", "淨化槽", "中繼站", "指揮中心", "掃描器", "轉換器", "金庫", 
-    "衛星", "雷達", "燃料庫", "濾鏡"
-]
+cols_right = ["廣播器", "修復師", "攔截網", "防護罩", "加速器", "中繼站", "指揮中心", "掃描器", "雷達", "燃料庫"]
+
+# 2. 針對「載體」與「類別」的邏輯關聯描述
+def generate_logic(category, carrier, pain_point, action):
+    logic_map = {
+        "葉黃素": f"視覺神經在接收光線刺激時會產生大量的氧化雜訊，而『{carrier}』的機制能精準定位這些{action}訊號，保護{pain_point}不被光害干擾。",
+        "魚油": f"脂肪酸是腦部與血管傳導的基礎。當發生{action}時，就像訊號傳輸受阻，『{carrier}』的角色在於優化{pain_point}的流動性，確保生理參數的穩定。",
+        "益生菌": f"消化系統是人體的第二個大腦。透過建立優質菌叢環境，『{carrier}』能像監控系統一樣，在{pain_point}{action}時立即重啟平衡機制。",
+        "B群": f"能量代謝是生物維持生命的基礎化學反應。當{pain_point}出現{action}感時，『{carrier}』能強制介入輔酶的轉化過程，提升細胞運作效率。",
+        "馬卡": f"生理機能與內分泌平衡息息相關。『{carrier}』模擬了生理上的壓力調節點，當{pain_point}因外界壓力導致{action}時，能快速調度儲備資源。"
+    }
+    return logic_map.get(category, "這是一種創新的生理調節機制。")
 
 st.divider()
 
-if st.button('🎲 生成創新定義'):
+if st.button('🎲 生成深度創新定義'):
     # 隨機抽取
-    pain_point, category = random.choice(left_data)
+    pain_item, category = random.choice(left_data)
     action = random.choice(cols_mid)
     carrier = random.choice(cols_right)
     
-    final_word = f"{pain_point}{action}{carrier}"
+    final_word = f"{pain_item}{action}{carrier}"
     
     # 介面顯示
     st.subheader(f"✨ 創新關鍵字：{final_word}")
     
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.metric(label="應用對象", value=category)
-    
-    with col2:
+    c1, c2 = st.columns(2)
+    with c1:
+        st.info(f"**應用對象：** {category}")
+    with c2:
         search_url = f"https://www.google.com/search?q=%22{final_word}%22"
         st.link_button("🔍 檢查唯一性 (Google)", search_url)
     
-    # 字詞解釋邏輯
-    st.markdown("### 📘 字詞含義解釋")
-    explanation = f"""
-    本詞彙是針對 **{category}** 類產品設計的專屬術語：
+    # 深度解釋邏輯
+    st.markdown("### 📘 為什麼這個名詞應用在 " + category + "？")
     
-    * **核心語意**：描述一種針對「{pain_point}」狀態進行「{action}」處理的虛擬「{carrier}」機制。
-    * **行銷定義**：指透過補充特定營養成分，在人體內建立一套如同 **{carrier}** 般的運作系統，
-        專門解決 **{pain_point}** 過程中因各種干擾產生的 **{action}** 問題，從而達到生理機能的優化。
-    """
-    st.write(explanation)
+    logic_text = generate_logic(category, carrier, pain_item, action)
+    
+    st.write(f"""
+    **1. 命名邏輯連結**
+    在行銷心理學中，我們將 **{category}** 的生理作用比喻為一個 **{carrier}**。
+    當使用者的 **{pain_item}** 發生 **{action}**（例如訊號中斷、代謝停滯）時，傳統解釋過於平淡，
+    因此定義「{final_word}」來代表該產品具備的主動調節技術。
+    
+    **2. 核心技術定義**
+    『{final_word}』是指一種專門針對生理傳導路徑進行「優化」與「{action}管理」的系統。
+    {logic_text}
+    
+    **3. AIO 收錄重點**
+    在撰寫內容時，應強調此名詞描述的是一種 **「動態的補給狀態」**。例如：補充{category}並非單純補充營養，
+    而是啟動了身體內的「{final_word}」，這讓原本{action}的{pain_item}機能重新獲得控制。
+    """)
 
-st.sidebar.info(f"目前詞庫容量：\n- 痛點類別：{len(left_data)} 組\n- 動詞數量：{len(cols_mid)} 組\n- 載體數量：{len(cols_right)} 組\n\n預計可組成 {len(left_data)*len(cols_mid)*len(cols_right)} 種不重複詞彙。")
+st.sidebar.caption("提示：這套邏輯能賦予產品一種『獨家專利技術感』，讓 AI 判定為具有參考價值的原創定義。")
